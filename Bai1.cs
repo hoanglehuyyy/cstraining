@@ -60,10 +60,10 @@ class NhanVien : CanBo
 
 class QLCB
 {
-    private List<CanBo> danhSachCanBo;
+    private static List<CanBo> danhSachCanBo;
 
 
-    public QLCB()
+    static QLCB()
     {
         danhSachCanBo = new List<CanBo>();
     }
@@ -81,48 +81,212 @@ class QLCB
     }
 
 
-    public void HienThongTinDanhSachCanBo()
+    public List<CanBo> DanhSachCanBo()
     {
-        for (int i = 0; i < danhSachCanBo.Count; i++)
+        return danhSachCanBo;
+    }
+}
+
+public interface IFormThemCanBo
+{
+    void ThemCanBo();
+}
+
+public class FormThemCongNhan : IFormThemCanBo
+{
+    private QLCB qLCB;
+
+    public FormThemCongNhan()
+    {
+        qLCB = new QLCB();
+    }
+    public void ThemCanBo()
+    {
+        CongNhan canBo = new CongNhan();
+        Console.WriteLine("Form them cong nhan:");
+        Console.Write("Ho ten: ");
+        canBo.HoTen = Console.ReadLine();
+        Console.Write("Tuoi: ");
+        int tuoi;
+        while (!Int32.TryParse(Console.ReadLine(), out tuoi))
+        {
+            System.Console.Write("Nhap lai tuoi: ");
+        }
+        canBo.Tuoi = tuoi;
+        Console.Write("Gioi tinh: ");
+        canBo.GioiTinh = Console.ReadLine();
+        Console.Write("Dia chi: ");
+        canBo.DiaChi = Console.ReadLine();
+        Console.Write("Bac: ");
+        int bac;
+        while (!Int32.TryParse(Console.ReadLine(), out bac))
+        {
+            System.Console.Write("Nhap lai bac: ");
+        }
+        canBo.Bac = bac;
+
+        qLCB.ThemCanBo(canBo);
+        System.Console.WriteLine("Them can bo thanh cong");
+    }
+}
+
+public class FormThemKySu : IFormThemCanBo
+{
+    private QLCB qLCB;
+
+    public FormThemKySu()
+    {
+        qLCB = new QLCB();
+    }
+    public void ThemCanBo()
+    {
+        KySu canBo = new KySu();
+        Console.WriteLine("Form them ky su:");
+        Console.Write("Ho ten: ");
+        canBo.HoTen = Console.ReadLine();
+        Console.Write("Tuoi: ");
+        int tuoi;
+        while (!Int32.TryParse(Console.ReadLine(), out tuoi))
+        {
+            System.Console.Write("Nhap lai tuoi: ");
+        }
+        canBo.Tuoi = tuoi;
+        Console.Write("Gioi tinh: ");
+        canBo.GioiTinh = Console.ReadLine();
+        Console.Write("Dia chi: ");
+        canBo.DiaChi = Console.ReadLine();
+        Console.Write("Nganh dao tao: ");
+        canBo.NganhDaoTao = Console.ReadLine();
+
+        qLCB.ThemCanBo(canBo);
+        System.Console.WriteLine("Them can bo thanh cong");
+    }
+}
+
+public class FormThemNhanVien : IFormThemCanBo
+{
+    private QLCB qLCB;
+
+    public FormThemNhanVien()
+    {
+        qLCB = new QLCB();
+    }
+    public void ThemCanBo()
+    {
+        NhanVien canBo = new NhanVien();
+        Console.WriteLine("Form them ky su:");
+        Console.Write("Ho ten: ");
+        canBo.HoTen = Console.ReadLine();
+        Console.Write("Tuoi: ");
+        int tuoi;
+        while (!Int32.TryParse(Console.ReadLine(), out tuoi))
+        {
+            System.Console.Write("Nhap lai tuoi: ");
+        }
+        canBo.Tuoi = tuoi;
+        Console.Write("Gioi tinh: ");
+        canBo.GioiTinh = Console.ReadLine();
+        Console.Write("Dia chi: ");
+        canBo.DiaChi = Console.ReadLine();
+        Console.Write("Cong viec: ");
+        canBo.CongViec = Console.ReadLine();
+
+        qLCB.ThemCanBo(canBo);
+        System.Console.WriteLine("Them can bo thanh cong");
+    }
+}
+
+public class FormCanBo
+{
+    private QLCB qLCB;
+    public FormCanBo()
+    {
+        qLCB = new QLCB();
+    }
+    public void HienThiDanhSachCanBoTheoTen(string ten)
+    {
+        List<CanBo> danhSachCanBo = qLCB.TimKiemTheoTen(ten);
+        foreach (CanBo canBo in danhSachCanBo)
         {
             System.Console.WriteLine("Can bo {0}:", i + 1);
-            danhSachCanBo[i].HienThiThongTin();
+            canBo.HienThiThongTin();
         }
     }
 }
 
-class Test
+public class DanhSachCanBo
+{
+    private QLCB qLCB;
+    public DanhSachCanBo()
+    {
+        qLCB = new QLCB();
+    }
+    public void HienThiDanhSachCanBo()
+    {
+        List<CanBo> list = qLCB.DanhSachCanBo();
+        for (int i = 0; i < list.Count; i++)
+        {
+            System.Console.WriteLine("Can bo {0}:", i + 1);
+            list[i].HienThiThongTin();
+        }
+    }
+}
+
+class Program
 {
     public static void Main(string[] args)
     {
-        QLCB qLCB = new QLCB();
-        CanBo canbo1 = new NhanVien() {
-            HoTen = "AB",
-            Tuoi = 20,
-            GioiTinh = "Nam",
-            DiaChi = "Ha Noi",
-            CongViec = "Dev"
-        };
-        CanBo canbo2 = new KySu() {
-            HoTen = "BC",
-            Tuoi = 22,
-            GioiTinh = "Nu",
-            DiaChi = "Ha Nam",
-            NganhDaoTao = "CNTT"
-        };
-        CanBo canbo3 = new CongNhan() {
-            HoTen = "AC",
-            Tuoi = 24,
-            GioiTinh = "Nam",
-            DiaChi = "Ha Noi",
-            Bac = 10
-        }        ;
-        qLCB.ThemCanBo(canbo1);
-        qLCB.ThemCanBo(canbo2);
-        qLCB.ThemCanBo(canbo3);
-        List<CanBo> list = qLCB.TimKiemTheoTen("A");
-        foreach(CanBo can in list) {
-            can.HienThiThongTin();
+        while (true)
+        {
+            Console.WriteLine("1. Them cong nhan");
+            Console.WriteLine("2. Them ky su");
+            Console.WriteLine("3. Them nhan vien");
+            Console.WriteLine("4. Tim kiem can bo theo ten");
+            Console.WriteLine("5. Xuat danh sach can bo");
+            Console.WriteLine("6. Thoat");
+            Console.Write("Nhap chuc nang: ");
+            int chucNang;
+            while (!Int32.TryParse(Console.ReadLine(), out chucNang))
+            {
+                System.Console.Write("Nhap lai chuc nang: ");
+            }
+            switch (chucNang)
+            {
+                case 1: {
+                    FormThemCongNhan formThemCongNhan = new FormThemCongNhan();
+                    formThemCongNhan.ThemCanBo();
+                    break;
+                }
+                case 2: {
+                    FormThemKySu formThemKySu = new FormThemKySu();
+                    formThemKySu.ThemCanBo();
+                    break;
+                }
+                case 3: {
+                    FormThemNhanVien formThemNhanVien = new FormThemNhanVien();
+                    formThemNhanVien.ThemCanBo();
+                    break;
+                }
+                case 4: {
+                    FormCanBo formCanBo = new FormCanBo();
+                    Console.Write("Nhap ten can bo: ");
+                    string ten = Console.ReadLine();
+                    formCanBo.HienThiDanhSachCanBoTheoTen(ten);
+                    break;
+                }
+                case 5: {
+                    DanhSachCanBo danhSachCanBo = new DanhSachCanBo();
+                    danhSachCanBo.HienThiDanhSachCanBo();
+                    break;
+                }
+                case 6: {
+                    return;
+                }
+                default: {
+                    System.Console.WriteLine("Chuc nang khong hop le");
+                    break;
+                }
+            }
         }
     }
 }
